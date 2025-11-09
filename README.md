@@ -1,29 +1,7 @@
 **School Attendance Data Mart ETL Framework**
 
-NEWGLOBE-PUPIL-DATAMART/
-├── dags/                          
-│   └── pupil_datamart_dag.py
-├── data/                          
-│   ├── PupilAttendance.csv
-│   └── PupilData.csv
-├── pupil_env/                     
-├── sql/
-│   └── DDL/                       
-│       └── table_create.sql
-│   └── stage_insert/              
-│       ├── 01_stg_insert.sql
-│   ├── 01_dim_date_ins.sql
-│   ├── 02_dim_pupil_ins.sql
-│   ├── 03_dim_academy_ins.sql
-│   ├── 04_dim_grade_ins.sql
-│   ├── 05_dim_stream_ins.sql
-│   ├── 06_fact_att_ins.sql
-│   ├── count_checker.sql
-│   ├── drop_tables.sql
-│   ├── truncate_tables.sql
-│   ├── load_raw.py
-│   └── newglobe_pupil_datamart.db
-└── README.md
+<img width="511" height="760" alt="image" src="https://github.com/user-attachments/assets/83648253-01ef-4f6d-b87b-f448e6050fb0" />
+
 
 1. **Source files:** pupil_data.csv and attendance_data.csv
 
