@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS fact_pupil_attendance_daily;
+DROP TABLE IF EXISTS dim_stream;
+DROP TABLE IF EXISTS dim_grade;
+DROP TABLE IF EXISTS dim_academy;
+DROP TABLE IF EXISTS dim_pupil;
+DROP TABLE IF EXISTS dim_date;
+DROP TABLE IF EXISTS stg_pupil_attendance;
+DROP TABLE IF EXISTS stg_pupil;
+DROP TABLE IF EXISTS raw_pupil_attendance;
+DROP TABLE IF EXISTS raw_pupil;

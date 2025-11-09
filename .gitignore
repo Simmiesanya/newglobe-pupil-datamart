@@ -1,0 +1,11 @@
+# SQLite DB (huge!)
+newglobe_pupil_datamart.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Airflow
+*.log
+airflow.cfg
+airflow.db
