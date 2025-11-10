@@ -19,11 +19,12 @@ Originally, i opted for md5 hashing but sqlite presented alot of limitations for
 Column -by-column detection would have been an option but for performance wise, it is not the best solution for data insertion, even though it guarantees deduplication
 
 4. **Dimension Layers (Insert or Ignore):**
-- Dim date: A date column that carries the range of dates found in the pupil table based on snapshot and attendance date
-- Dim pupil: Shows the distinct list of students
-- Dim academy: Shows the list of academies based on the pupil data
-- Dim grade: Shows the grades
-- Dim stream: Shows the streams
+* Dim date: A date column that carries the range of dates found in the pupil table based on snapshot and attendance date
+* Dim pupil: Shows the distinct list of students
+* Dim academy: Shows the list of academies based on the pupil data
+* Dim grade: Shows the grades
+* Dim stream: Shows the streams
+
 The tables mentioned above are also insert or ignore When a new row arrives from the stage table, 
 it is inserted into the appropriate dim tables
 Logic: INSERT OR IGNORE on the natural key (e.g., academy_name). If new, insert with a new *_key (auto-increment). If exists, reuse the key. This handles inserts/updates implicitly without full SCD complexity.
@@ -63,12 +64,13 @@ However, if the fact table is not empty, the script fetches the MAX date in the 
 
 
 **Running the dag python script:**
+
 **OPTION 1: Run Directly with Python**
 Step 1: Download & Unzip
 Extract the project folder: NEWGLOBE-PUPIL-DATAMART
 
 Step 2: Open Windows Terminal (CMD or PowerShell)
-navigate to cd C:\path\to\NEWGLOBE-PUPIL-DATAMART
+Navigate to cd C:\path\to\NEWGLOBE-PUPIL-DATAMART
 
 Step 3: Install Dependencies
 pip install pandas
@@ -77,25 +79,31 @@ Step 4: Run the ETL
 python dags\pupil_datamart_dag.py
 
 **OPTION 2: Run with Airflow**
-Step 1: Install WSL2 (Ubuntu)
+
+**Step 1:**
+Install WSL2 (Ubuntu)
 Open PowerShell as Admin
 Run: powershellwsl --install -d Ubuntu
 Restart your PC
 Open Ubuntu app → set username/password
 
-Step 2: Open WSL Terminal
+**Step 2:**
+Open WSL Terminal
 # In WSL terminal, type this or the appropriate path the folder is saved
 cd /mnt/c/path/to/NEWGLOBE-PUPIL-DATAMART 
 
-Step 3: Install Airflow & Dependencies
+**Step 3:**
+Install Airflow & Dependencies
 pip install "apache-airflow[pandas,sqlite]"
 
-Step 4: Set Up Airflow
+**Step 4:**
+Set Up Airflow
 export AIRFLOW_HOME=~/airflow
 mkdir -p $AIRFLOW_HOME
 airflow db init
 
-Step 5: Create Admin User
+**Step 5:**
+Create Admin User
 airflow users create \
     --username admin \
     --password admin \
@@ -104,33 +112,39 @@ airflow users create \
     --role Admin \
     --email admin@example.com
 
-Step 6: Copy DAG
+**Step 6:**
+Copy DAG
 cp dags/pupil_datamart_dag.py ~/airflow/dags/
 
-Step 7: Start Airflow
-# Terminal 1 (WSL)
+**Step 7:**
+Start Airflow
+# In Terminal 1 (WSL)
 airflow scheduler
 
-# Terminal 2 (WSL)
+# In Terminal 2 (WSL)
 airflow webserver --port 8080
 
-Step 8: Open Web UI
+**Step 8:**
+Open Web UI
 Go to: http://localhost:8080
 Login: admin / admin
 → Find pupil_datamart_dag → Turn ON → Trigger
 
+
 **How to Query the Database**
-STEP 1: Using Python (Built-in)
+**STEP 1:**
+Using Python (Built-in)
 python -c "import sqlite3; conn = sqlite3.connect('sql/DDL/newglobe_pupil_datamart.db'); print('Total pupils:', conn.execute('SELECT COUNT(*) FROM dim_pupil').fetchone()[0]); conn.close()"
 
-STEP 2: Using DB Browser (GUI – Optional)
+**STEP 2:**
+Using DB Browser (GUI – Optional)
 Download: https://sqlitebrowser.org/
 Open newglobe_pupil_datamart.db
 Go to Execute SQL → run any query
 
 **NB: do not leave the database open in db browser when running the dag or when running a query from terminal. Always close database first.**
 
-Ad-hoc SQL Runner: run_sql_adhoc
+**Ad-hoc SQL Runner: run_sql_adhoc**
 What it does: Runs any .sql file from your sql/ folder
 Use cases:
 - count_checker.sql → Show row counts
