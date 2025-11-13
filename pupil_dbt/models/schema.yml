@@ -1,0 +1,103 @@
+version: 2
+
+sources:
+  - name: postgres
+    schema: public
+    tables:
+      - name: fact_pupil_attendance_daily
+        description: Daily attendance facts with prcs_id for increments
+        columns:
+          - name: fact_date
+            description: Date of attendance snapshot
+          - name: attendance
+            description: "'Present' or 'Absent'"
+          - name: prcs_id
+            description: Batch ID for incremental loads
+          - name: status
+            description: Pupil status (e.g., 'Allowed In Class')
+      - name: dim_academy
+        columns:
+          - name: academy_name
+            description: School name
+          - name: academy_key
+            description: Surrogate key
+      - name: dim_grade
+        columns:
+          - name: grade_name
+            description: e.g., 'Primary 1'
+          - name: grade_key
+            description: Surrogate key
+      - name: dim_date
+        columns:
+          - name: date
+            description: Full date
+          - name: year
+          - name: month
+          - name: weekday
+            description: Day name (e.g., 'Monday')
+
+models:
+  - name: attendance_rate
+    description: Daily attendance metrics by academy and grade for trends
+    columns:
+      - name: fact_date
+        description: Attendance date
+        tests:
+          - not_null
+      - name: academy_name
+        description: Academy
+        tests:
+          - not_null
+      - name: grade_name
+        description: Grade level
+        tests:
+          - not_null
+      - name: attendance_rate
+        description: "% of pupils present that day"
+        tests:
+          - not_null
+      - name: total_pupils_presented
+        description: Number of pupils with attendance records that day
+        tests:
+          - not_null
+
+  - name: absenteeism_weekday
+    description: Absenteeism trends by day of week for intervention planning
+    columns:
+      - name: weekday
+        description: Day name (e.g., 'Monday')
+        tests:
+          - unique
+          - not_null
+      - name: avg_absenteeism_rate
+        description: Average % absent per weekday across academies
+        tests:
+          - not_null
+      - name: avg_daily_pupils
+        description: Average pupils per weekday
+        tests:
+          - not_null
+      - name: academies_count
+        description: Number of academies contributing
+        tests:
+          - not_null
+
+  - name: academy_benchmarks
+    description: Ranked academy performance for benchmarking
+    columns:
+      - name: academy_name
+        description: School name
+        tests:
+          - not_null
+      - name: overall_attendance_rate
+        description: Avg % present over all time
+        tests:
+          - not_null
+      - name: total_unique_pupils
+        description: Total unique pupils at academy
+        tests:
+          - not_null
+      - name: rank
+        description: Performance rank (1 = best)
+        tests:
+          - not_null

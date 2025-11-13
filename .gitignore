@@ -1,11 +1,39 @@
 # SQLite DB (huge!)
 newglobe_pupil_datamart.db
 
+# DBT
+target/
+dbt_packages/
+
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
 
 # Airflow
-*.log
+logs/
 airflow.cfg
 airflow.db
+*.db
+
+# Environment
+.env
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Data (if you have CSVs or DB dumps)
+*.csv
+*.db
+*.sqlite

@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS fact_pupil_attendance_daily (
     stream_key    INTEGER,
     status        TEXT,
     attendance    TEXT,
+    prcs_id TEXT,
     PRIMARY KEY (fact_date, pupil_key),   
     FOREIGN KEY (date_key)    REFERENCES dim_date(date_key),
     FOREIGN KEY (pupil_key)   REFERENCES dim_pupil(pupil_key),
